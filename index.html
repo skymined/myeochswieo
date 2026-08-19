@@ -94,20 +94,32 @@
       <button type="button" id="n-inc" aria-label="연차 일수 늘리기">+</button>
     </div>
 
-    <div class="hero-result">
-      <div><span class="hero-days" id="hero-days">0</span><span class="hero-days-unit">일 연속 휴가</span></div>
-      <div class="hero-range" id="hero-range"></div>
-      <div class="hero-detail" id="hero-detail"></div>
-      <div class="hero-alt" id="hero-alt"></div>
-    </div>
+    <div class="hero-main">
+      <div class="hero-preview-panel">
+        <div class="hero-preview" id="hero-preview" aria-live="polite"></div>
+        <div class="hero-preview-legend" id="hero-preview-legend">
+          <span><i class="wash"></i>이미 쉬는 날</span>
+          <span><i class="fill"></i>연차 쓰는 날</span>
+        </div>
+      </div>
 
-    <div class="worker-row">
-      <label>
-        <input type="checkbox" id="worker-toggle" checked />
-        근로자의 날(5/1)도 쉬는 날에 포함 — 일반 직장인 기준
-      </label>
+      <div class="hero-summary">
+        <div class="hero-result">
+          <div><span class="hero-days" id="hero-days">0</span><span class="hero-days-unit">일 연속 휴가</span></div>
+          <div class="hero-range" id="hero-range"></div>
+          <div class="hero-detail" id="hero-detail"></div>
+          <div class="hero-alt" id="hero-alt"></div>
+        </div>
+
+        <div class="worker-row">
+          <label>
+            <input type="checkbox" id="worker-toggle" checked />
+            근로자의 날(5/1)도 쉬는 날에 포함 — 일반 직장인 기준
+          </label>
+        </div>
+        <p class="next-holiday" id="next-holiday"></p>
+      </div>
     </div>
-    <p class="next-holiday" id="next-holiday"></p>
   </section>
 
   <section class="block wrap" id="table-section">

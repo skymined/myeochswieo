@@ -145,6 +145,7 @@
   function recompute() {
     cachedDays = buildYearDays(state.year, state.includeWorker);
     renderHero();
+    renderHeroPreview();
     renderTable();
     renderRibbon();
     renderCalendar();
@@ -261,6 +262,60 @@
     return set;
   }
 
+  /**
+   * 한 달치 달력 카드(제목 + 요일행 + 날짜 그리드)를 만든다.
+   * renderCalendar()(연간 전체 달력)와 renderHeroPreview()(히어로 미니 캘린더)가
+   * 이 함수를 공유해서, 같은 마크업/클래스 규칙을 재사용한다.
+   * extraClassesFn(day) -> string 으로 day 셀에 추가할 클래스(is-pto, in-window 등)를 지정한다.
+   */
+  function buildMonthElement(monthDays, extraClassesFn) {
+    const m = monthDays[0].date.getMonth();
+    const first = monthDays[0].date;
+    const startDow = first.getDay();
+
+    const wrap = document.createElement("div");
+    wrap.className = "month";
+
+    const title = document.createElement("h3");
+    title.textContent = `${m + 1}월`;
+    wrap.appendChild(title);
+
+    const dowRow = document.createElement("div");
+    dowRow.className = "month-grid dow-row";
+    DOW_KR.forEach((label, i) => {
+      const s = document.createElement("span");
+      s.className = "dow-label" + (i === 0 ? " red" : i === 6 ? " blue" : "");
+      s.textContent = label;
+      dowRow.appendChild(s);
+    });
+    wrap.appendChild(dowRow);
+
+    const grid = document.createElement("div");
+    grid.className = "month-grid";
+    for (let i = 0; i < startDow; i++) {
+      const pad = document.createElement("span");
+      pad.className = "day pad";
+      grid.appendChild(pad);
+    }
+    monthDays.forEach((d) => {
+      const cell = document.createElement("div");
+      let cls = "day " + dayClass(d);
+      if (extraClassesFn) {
+        const extra = extraClassesFn(d);
+        if (extra) cls += " " + extra;
+      }
+      cell.className = cls;
+      cell.innerHTML = `<span class="num">${d.date.getDate()}</span>`;
+      if (d.holidayName) {
+        cell.innerHTML += `<span class="label">${d.holidayName}</span>`;
+        cell.title = d.holidayName;
+      }
+      grid.appendChild(cell);
+    });
+    wrap.appendChild(grid);
+    return wrap;
+  }
+
   function renderRibbon() {
     const el = document.getElementById("ribbon");
     if (!el) return;
@@ -295,46 +350,56 @@
 
     for (let m = 0; m < 12; m++) {
       const monthDays = cachedDays.filter((d) => d.date.getMonth() === m);
-      const first = monthDays[0].date;
-      const startDow = first.getDay();
+      el.appendChild(
+        buildMonthElement(monthDays, (d) => (ptoSet.has(d.dateStr) ? "is-pto" : ""))
+      );
+    }
+  }
 
-      const wrap = document.createElement("div");
-      wrap.className = "month";
+  /**
+   * 히어로 영역의 미니 달력. 지금 연차 일수(state.n)로 만들 수 있는 최장 연속
+   * 구간(main window)이 걸치는 월(들)만 잘라서, 그 구간 전체를 이어진 띠로,
+   * 그중 실제로 연차를 써야 하는 날짜는 진한 금색으로 강조해 보여준다.
+   * 계산은 bestWindowsForBudget/ptoDatesInWindow를 그대로 재사용하고,
+   * 새 알고리즘은 만들지 않는다.
+   */
+  function renderHeroPreview() {
+    const el = document.getElementById("hero-preview");
+    const legend = document.getElementById("hero-preview-legend");
+    if (!el) return;
+    el.innerHTML = "";
 
-      const title = document.createElement("h3");
-      title.textContent = `${m + 1}월`;
-      wrap.appendChild(title);
+    const { bestLen, windows } = bestWindowsForBudget(cachedDays, state.n);
+    if (!windows.length || bestLen === 0) {
+      if (legend) legend.hidden = true;
+      const p = document.createElement("p");
+      p.className = "hero-preview-empty";
+      p.textContent = "해당 연도에 쉬는 날이 없어요.";
+      el.appendChild(p);
+      return;
+    }
+    if (legend) legend.hidden = false;
 
-      const dowRow = document.createElement("div");
-      dowRow.className = "month-grid dow-row";
-      DOW_KR.forEach((label, i) => {
-        const s = document.createElement("span");
-        s.className = "dow-label" + (i === 0 ? " red" : i === 6 ? " blue" : "");
-        s.textContent = label;
-        dowRow.appendChild(s);
-      });
-      wrap.appendChild(dowRow);
+    const main = windows[0];
+    const pto = ptoDatesInWindow(cachedDays, main.start, main.end);
+    const ptoSet = new Set(pto.map((d) => d.dateStr));
+    const windowSet = new Set();
+    for (let i = main.start; i <= main.end; i++) {
+      windowSet.add(cachedDays[i].dateStr);
+    }
 
-      const grid = document.createElement("div");
-      grid.className = "month-grid";
-      for (let i = 0; i < startDow; i++) {
-        const pad = document.createElement("span");
-        pad.className = "day pad";
-        grid.appendChild(pad);
-      }
-      monthDays.forEach((d) => {
-        const cell = document.createElement("div");
-        cell.className = "day " + dayClass(d);
-        if (ptoSet.has(d.dateStr)) cell.classList.add("is-pto");
-        cell.innerHTML = `<span class="num">${d.date.getDate()}</span>`;
-        if (d.holidayName) {
-          cell.innerHTML += `<span class="label">${d.holidayName}</span>`;
-          cell.title = d.holidayName;
-        }
-        grid.appendChild(cell);
-      });
-      wrap.appendChild(grid);
-      el.appendChild(wrap);
+    const startMonth = cachedDays[main.start].date.getMonth();
+    const endMonth = cachedDays[main.end].date.getMonth();
+
+    for (let m = startMonth; m <= endMonth; m++) {
+      const monthDays = cachedDays.filter((d) => d.date.getMonth() === m);
+      el.appendChild(
+        buildMonthElement(monthDays, (d) => {
+          if (ptoSet.has(d.dateStr)) return "is-pto in-window";
+          if (windowSet.has(d.dateStr)) return "in-window";
+          return "";
+        })
+      );
     }
   }
 
@@ -363,6 +428,7 @@
   function setN(n) {
     state.n = Math.min(MAX_PTO, Math.max(1, n));
     renderHero();
+    renderHeroPreview();
     renderTable();
     renderRibbon();
     renderCalendar();
