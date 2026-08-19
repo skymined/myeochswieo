@@ -157,13 +157,14 @@ main {
 }
 
 .hero {
-  padding: 2.5rem 0 2.75rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.75rem;
   text-align: center;
 }
 
-/* 히어로 안에는 컨트롤 + 미니 캘린더가 나란히 들어가야 하므로 기본 .wrap보다 넓게 쓴다 */
+/* 히어로 안에는 컨트롤 + 미니 캘린더 + 옵션 리스트가 나란히 들어가야 하므로 기본 .wrap보다 넓게 쓴다 */
 .hero.wrap {
-  max-width: 64rem;
+  max-width: 78rem;
 }
 
 .eyebrow {
@@ -202,13 +203,13 @@ main {
 }
 
 .stepper button {
-  width: 2.1rem;
-  height: 2.1rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
   border: 1px solid var(--line-strong);
   background: transparent;
   color: var(--ink);
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   line-height: 1;
   cursor: pointer;
 }
@@ -238,8 +239,9 @@ main {
 }
 
 /* ---------- hero-main: 스테퍼로 바꾼 결과가 스크롤 없이 바로 보이는 영역 ---------- */
-/* 좁은 화면: 미니 캘린더 -> 결과 텍스트 순서로 세로 쌓임(스테퍼 바로 아래 캘린더가 옴).
-   넓은 화면: order로 좌(결과 텍스트) / 우(미니 캘린더) 2단 배치로 뒤집는다. */
+/* 좁은 화면: 미니 캘린더 -> 결과 텍스트 -> 옵션 리스트 순으로 세로 쌓임.
+   중간 폭: 결과 텍스트(좌) / 미니 캘린더(우) 2단, 옵션 리스트는 그 아래 전체 폭.
+   넓은 화면: 결과 텍스트 / 미니 캘린더 / 옵션 리스트, 3단으로 나란히("오른쪽에 리스트"). */
 
 .hero-main {
   margin-top: 2.25rem;
@@ -262,6 +264,21 @@ main {
 
   .hero-preview-panel {
     order: 2;
+  }
+
+  .options-panel {
+    order: 3;
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1180px) {
+  .hero-main {
+    grid-template-columns: minmax(15rem, 19rem) minmax(20rem, 1fr) minmax(16rem, 19rem);
+  }
+
+  .options-panel {
+    grid-column: auto;
   }
 }
 
@@ -317,9 +334,11 @@ main {
   white-space: nowrap;
 }
 
-/* 연차 예산 안에서 이어지는 연휴 구간 전체(주말·공휴일 포함)를 옅은 금색 띠로 표시 */
+/* 연차 예산 안에서 이어지는 연휴 구간 전체(주말·공휴일 포함)를 옅은 금색 띠로 표시.
+   배경(paper-raised)과 명도 차이가 작아 보이던 문제를 얇은 금색 테두리로 보강. */
 .hero-preview .day.in-window {
   background: var(--gold-soft);
+  box-shadow: inset 0 0 0 1px var(--gold);
 }
 
 /* 그중 실제로 연차를 신청해야 하는 날만 진한 금색으로 도장 찍듯 강조 */
@@ -381,6 +400,15 @@ main {
   margin-top: 0;
 }
 
+.hero-basis {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.02em;
+  min-height: 1.1em;
+}
+
 .hero-days {
   font-family: var(--font-num);
   font-weight: 700;
@@ -421,23 +449,6 @@ main {
   min-height: 1.2em;
 }
 
-.worker-row {
-  margin-top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
-  color: var(--ink-soft);
-}
-
-.worker-row label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  cursor: pointer;
-}
-
 .next-holiday {
   margin-top: 0;
   font-size: 0.78rem;
@@ -446,10 +457,153 @@ main {
   min-height: 1.2em;
 }
 
+/* ---------- options-panel: "다른 옵션" 정렬 가능한 리스트 ---------- */
+
+.options-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.options-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.options-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.options-sort {
+  display: inline-flex;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.options-sort button {
+  background: transparent;
+  border: none;
+  padding: 0.32rem 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.options-sort button + button {
+  border-left: 1px solid var(--line-strong);
+}
+
+.options-sort button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.options-sub {
+  margin: 0;
+  font-size: 0.74rem;
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  min-height: 1.1em;
+}
+
+.options-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+  max-height: 24rem;
+  overflow-y: auto;
+}
+
+.option-row {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  padding: 0.6rem 0.35rem;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--ink);
+}
+
+.option-row:hover {
+  background: var(--paper-raised);
+}
+
+.option-row.is-selected {
+  background: var(--gold-soft);
+}
+
+.option-row-top,
+.option-row-bottom {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.option-name {
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+
+.option-days {
+  font-family: var(--font-num);
+  font-weight: 700;
+  color: var(--red);
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.option-days-unit {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  margin-left: 0.1rem;
+}
+
+.option-row-bottom {
+  font-size: 0.74rem;
+  color: var(--ink-soft);
+}
+
+.option-range {
+  font-family: var(--font-mono);
+}
+
+.option-pto {
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.option-empty {
+  padding: 1rem 0.35rem;
+  color: var(--ink-faint);
+  font-size: 0.85rem;
+}
+
 /* ---------- section shell ---------- */
 
 section.block {
-  padding: 2.4rem 0;
+  padding-top: 2.4rem;
+  padding-bottom: 2.4rem;
   border-top: 1px solid var(--line);
 }
 
@@ -506,6 +660,14 @@ tbody tr:hover {
   background: var(--paper-raised);
 }
 
+tbody tr:has(.table-empty) {
+  cursor: default;
+}
+
+tbody tr:has(.table-empty):hover {
+  background: transparent;
+}
+
 tbody tr.is-selected {
   background: var(--gold-soft);
 }
@@ -520,6 +682,13 @@ tbody td.ratio {
   color: var(--ink-soft);
   font-family: var(--font-mono);
   font-size: 0.85rem;
+}
+
+.table-empty {
+  text-align: center;
+  color: var(--ink-faint);
+  padding: 1.4rem 0.5rem;
+  cursor: default;
 }
 
 td .x {
@@ -561,15 +730,18 @@ td .x {
   height: 78%;
 }
 
-.ribbon-cell.worker {
-  background: var(--ink-faint);
-  height: 78%;
-}
-
 .ribbon-cell.is-pto {
   background: var(--gold);
   height: 100%;
   box-shadow: 0 0 0 1px var(--gold-soft);
+}
+
+.ribbon-cell.is-past {
+  opacity: 0.45;
+}
+
+.ribbon-cell.is-today {
+  box-shadow: 0 0 0 2px var(--red);
 }
 
 .ribbon-months {
@@ -616,8 +788,9 @@ td .x {
 .legend i.gold {
   background: var(--gold);
 }
-.legend i.worker {
-  background: var(--ink-faint);
+.legend i.today {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--red);
 }
 
 /* ---------- calendar grid ---------- */
@@ -694,16 +867,21 @@ td .x {
   color: var(--blue);
 }
 
-.day.worker {
-  color: var(--ink-soft);
-  text-decoration: underline dotted var(--ink-faint) 1px;
-  text-underline-offset: 2px;
-}
-
 .day.is-pto {
   background: var(--gold-soft);
   box-shadow: inset 0 0 0 1px var(--gold);
   color: var(--gold);
+  font-weight: 700;
+}
+
+/* 이미 지난 날짜는 살짝 흐리게 — "오늘이 어디인지" 감을 잡을 수 있도록 */
+.day.is-past {
+  opacity: 0.45;
+}
+
+/* 오늘 날짜는 굵은 테두리로 표시 */
+.day.is-today {
+  box-shadow: inset 0 0 0 2px var(--red);
   font-weight: 700;
 }
 

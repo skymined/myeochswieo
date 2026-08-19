@@ -52,18 +52,33 @@
   "mainEntity": [
     {
       "@type": "Question",
+      "name": "이 계산은 어떻게 하나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "연차 개수를 예산으로 두고, 그 예산 안에서 만들 수 있는 가장 긴 연속 휴일 구간을 찾아요. 원래 쉬는 날(주말·공휴일)은 그대로 두고, 그 사이에 낀 평일만 연차로 채우는 방식이에요. 맨 위 추천 결과는 오늘 이후로 실제로 쓸 수 있는 구간만 보여주고, 아래쪽 '연간 한눈에 보기'와 '전체 달력'은 지난 날짜를 포함한 한 해 전체를 참고용으로 보여줘요." }
+    },
+    {
+      "@type": "Question",
       "name": "대체공휴일이 뭔가요?",
-      "acceptedAnswer": { "@type": "Answer", "text": "설날·추석 연휴, 3·1절, 광복절, 개천절, 한글날, 어린이날, 부처님오신날, 성탄절이 주말이나 다른 공휴일과 겹칠 때, 그 다음 첫 평일을 대신 쉬게 해주는 제도예요. 단, 현충일과 신정은 이 제도의 적용 대상이 아니에요."
+      "acceptedAnswer": { "@type": "Answer", "text": "설날·추석 연휴, 3·1절, 광복절, 개천절, 한글날, 어린이날, 부처님오신날, 성탄절, 제헌절, 근로자의 날(노동절)이 주말이나 다른 공휴일과 겹칠 때, 그 다음 첫 평일을 대신 쉬게 해주는 제도예요. 다만 설날·추석 연휴는 '일요일'과 겹칠 때만 적용되고 나머지 항목은 토요일과 겹쳐도 적용돼요. 현충일과 신정은 이 제도의 적용 대상이 아니에요." }
     },
     {
       "@type": "Question",
       "name": "근로자의 날에는 다 쉬나요?",
-      "acceptedAnswer": { "@type": "Answer", "text": "근로자의 날(5월 1일)은 관공서 공휴일이 아니라 근로기준법상 유급휴일이에요. 그래서 일반 사기업 직장인은 대부분 쉬지만, 공무원과 학교는 정상 근무·수업을 해요." }
+      "acceptedAnswer": { "@type": "Answer", "text": "2025년까지는 근로기준법상 유급휴일이라 사기업만 쉬고 공무원·학교는 정상 근무였는데, 2026년 4월 국무회의 의결로 정식 관공서 공휴일(노동절)로 격상돼서 2026년부터는 공무원·학교를 포함한 전 국민이 함께 쉬어요." }
     },
     {
       "@type": "Question",
-      "name": "제헌절은 왜 빨간 날이 아닌가요?",
-      "acceptedAnswer": { "@type": "Answer", "text": "제헌절(7월 17일)은 국경일이지만 2008년부터 공휴일에서 제외되어 관공서가 정상 근무해요. 태극기는 게양하지만 쉬는 날은 아니에요." }
+      "name": "제헌절은 왜 빨간 날인가요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "제헌절(7월 17일)은 2008년 공휴일에서 제외됐다가, 2026년 1월 29일 국회 본회의를 통과해 18년 만에 공휴일로 복원됐어요. 그래서 2026년부터는 이 계산기에도 쉬는 날로 반영돼 있어요." }
+    },
+    {
+      "@type": "Question",
+      "name": "데이터는 얼마나 정확한가요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "「공휴일에 관한 법률」과 「관공서의 공휴일에 관한 규정」(대통령령)을 1차 출처로 확인해서 넣었어요. 다만 국회·정부가 임시공휴일을 추가로 지정할 수 있으니, 중요한 일정은 정부 발표로 한 번 더 확인하는 걸 권장해요." }
+    },
+    {
+      "@type": "Question",
+      "name": "왜 2026·2027년만 있나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "지금은 이 두 해까지만 공휴일이 확정·교차 검증됐어요. 다음 해가 확정되는 대로 데이터를 갱신할 예정이에요." }
     }
   ]
 }
@@ -105,25 +120,32 @@
 
       <div class="hero-summary">
         <div class="hero-result">
+          <p class="hero-basis" id="hero-basis"></p>
           <div><span class="hero-days" id="hero-days">0</span><span class="hero-days-unit">일 연속 휴가</span></div>
           <div class="hero-range" id="hero-range"></div>
           <div class="hero-detail" id="hero-detail"></div>
           <div class="hero-alt" id="hero-alt"></div>
         </div>
-
-        <div class="worker-row">
-          <label>
-            <input type="checkbox" id="worker-toggle" checked />
-            근로자의 날(5/1)도 쉬는 날에 포함 — 일반 직장인 기준
-          </label>
-        </div>
         <p class="next-holiday" id="next-holiday"></p>
+      </div>
+
+      <div class="options-panel">
+        <div class="options-head">
+          <h2 class="options-title">다른 옵션</h2>
+          <div class="options-sort" role="group" aria-label="정렬 방식">
+            <button type="button" data-sort="soon" aria-pressed="true">빠른순</button>
+            <button type="button" data-sort="length" aria-pressed="false">기간순</button>
+            <button type="button" data-sort="efficiency" aria-pressed="false">효율순</button>
+          </div>
+        </div>
+        <p class="options-sub" id="options-sub"></p>
+        <ul class="options-list" id="options-list"></ul>
       </div>
     </div>
   </section>
 
   <section class="block wrap" id="table-section">
-    <h2>연차 일수별 한눈에 보기 <span class="sub">행을 누르면 위 결과가 바뀌어요</span></h2>
+    <h2>연차 일수별 한눈에 보기 <span class="sub" id="table-sub">행을 누르면 위 결과가 바뀌어요</span></h2>
     <table>
       <thead>
         <tr>
@@ -138,7 +160,7 @@
   </section>
 
   <section class="block wrap">
-    <h2>연간 한눈에 보기 <span class="sub">빨강 = 일요일·공휴일, 파랑 = 토요일, 금색 = 추천 연차일</span></h2>
+    <h2>연간 한눈에 보기 <span class="sub">한 해 전체 기준(지난 날짜 포함) · 빨강 = 일요일·공휴일, 파랑 = 토요일, 금색 = 연중 최장 연차 구간</span></h2>
     <div class="ribbon-shell">
       <div class="ribbon" id="ribbon"></div>
       <div class="ribbon-months" id="ribbon-months"></div>
@@ -146,13 +168,13 @@
     <div class="legend">
       <span><i class="red"></i>일요일·공휴일</span>
       <span><i class="blue"></i>토요일</span>
-      <span><i class="worker"></i>근로자의 날</span>
-      <span><i class="gold"></i>추천 연차일</span>
+      <span><i class="gold"></i>연중 최장 연차 구간</span>
+      <span><i class="today"></i>오늘</span>
     </div>
   </section>
 
   <section class="block wrap">
-    <h2>전체 달력</h2>
+    <h2>전체 달력 <span class="sub">흐린 날짜 = 이미 지난 날, 테두리 강조 = 오늘</span></h2>
     <div class="calendar-months" id="calendar"></div>
   </section>
 
@@ -170,12 +192,13 @@
         <tr><td>2/16(월)~2/18(수)</td><td>설날 연휴 (설날 2/17 화)</td></tr>
         <tr><td>3/1(일)</td><td>삼일절</td></tr>
         <tr><td>3/2(월)</td><td>삼일절 대체공휴일</td></tr>
-        <tr><td>5/1(금)</td><td>근로자의 날 (관공서 공휴일 아님)</td></tr>
+        <tr><td>5/1(금)</td><td>근로자의 날(노동절)</td></tr>
         <tr><td>5/5(화)</td><td>어린이날</td></tr>
         <tr><td>5/24(일)</td><td>부처님오신날</td></tr>
         <tr><td>5/25(월)</td><td>부처님오신날 대체공휴일</td></tr>
         <tr><td>6/3(수)</td><td>전국동시지방선거</td></tr>
         <tr><td>6/6(토)</td><td>현충일</td></tr>
+        <tr><td>7/17(금)</td><td>제헌절 (2026년부터 공휴일로 복원)</td></tr>
         <tr><td>8/15(토)</td><td>광복절</td></tr>
         <tr><td>8/17(월)</td><td>광복절 대체공휴일</td></tr>
         <tr><td>9/24(목)~9/26(토)</td><td>추석 연휴 (추석 9/25 금)</td></tr>
@@ -196,10 +219,13 @@
         <tr><td>2/6(토)~2/8(월)</td><td>설날 연휴 (설날 2/7 일)</td></tr>
         <tr><td>2/9(화)</td><td>설날 대체공휴일</td></tr>
         <tr><td>3/1(월)</td><td>삼일절</td></tr>
-        <tr><td>5/1(토)</td><td>근로자의 날 (관공서 공휴일 아님)</td></tr>
+        <tr><td>5/1(토)</td><td>근로자의 날(노동절)</td></tr>
+        <tr><td>5/3(월)</td><td>근로자의 날(노동절) 대체공휴일</td></tr>
         <tr><td>5/5(수)</td><td>어린이날</td></tr>
         <tr><td>5/13(목)</td><td>부처님오신날</td></tr>
         <tr><td>6/6(일)</td><td>현충일</td></tr>
+        <tr><td>7/17(토)</td><td>제헌절</td></tr>
+        <tr><td>7/19(월)</td><td>제헌절 대체공휴일</td></tr>
         <tr><td>8/15(일)</td><td>광복절</td></tr>
         <tr><td>8/16(월)</td><td>광복절 대체공휴일</td></tr>
         <tr><td>9/14(화)~9/16(목)</td><td>추석 연휴 (추석 9/15 수)</td></tr>
@@ -218,23 +244,27 @@
 
     <div class="faq-item">
       <h3>이 계산은 어떻게 하나요?</h3>
-      <p>연차 개수를 예산으로 두고, 그 예산 안에서 만들 수 있는 가장 긴 연속 휴일 구간을 전체 날짜에서 찾아요. 원래 쉬는 날(주말·공휴일)은 그대로 두고, 그 사이에 낀 평일만 연차로 채우는 방식이에요.</p>
+      <p>연차 개수를 예산으로 두고, 그 예산 안에서 만들 수 있는 가장 긴 연속 휴일 구간을 찾아요. 원래 쉬는 날(주말·공휴일)은 그대로 두고, 그 사이에 낀 평일만 연차로 채우는 방식이에요. 맨 위 추천 결과는 오늘 이후로 실제로 쓸 수 있는 구간만 보여주고, 아래쪽 '연간 한눈에 보기'와 '전체 달력'은 지난 날짜를 포함한 한 해 전체를 참고용으로 보여줘요.</p>
     </div>
     <div class="faq-item">
       <h3>대체공휴일이 뭔가요?</h3>
-      <p>설날·추석 연휴, 3·1절, 광복절, 개천절, 한글날, 어린이날, 부처님오신날, 성탄절이 주말이나 다른 공휴일과 겹칠 때 그 다음 첫 평일을 대신 쉬게 해주는 제도예요. 다만 설날·추석 연휴는 '일요일'과 겹칠 때만 적용되고, 나머지 항목은 토요일과 겹쳐도 적용돼요. 현충일과 신정은 이 제도 자체의 적용 대상이 아니에요.</p>
+      <p>설날·추석 연휴, 3·1절, 광복절, 개천절, 한글날, 어린이날, 부처님오신날, 성탄절, 제헌절, 근로자의 날(노동절)이 주말이나 다른 공휴일과 겹칠 때 그 다음 첫 평일을 대신 쉬게 해주는 제도예요. 다만 설날·추석 연휴는 '일요일'과 겹칠 때만 적용되고, 나머지 항목은 토요일과 겹쳐도 적용돼요. 현충일과 신정은 이 제도 자체의 적용 대상이 아니에요.</p>
     </div>
     <div class="faq-item">
       <h3>근로자의 날에는 다 쉬나요?</h3>
-      <p>근로자의 날(5월 1일)은 관공서 공휴일이 아니라 근로기준법상 유급휴일이에요. 일반 사기업 직장인은 대부분 쉬지만 공무원·학교는 정상 근무해요. 위 토글로 계산에 포함할지 뺄지 선택할 수 있어요.</p>
+      <p>2025년까지는 근로기준법상 유급휴일이라 사기업만 쉬고 공무원·학교는 정상 근무였어요. 2026년 4월 국무회의 의결로 정식 관공서 공휴일(노동절)로 격상돼서, 2026년부터는 공무원·학교를 포함한 전 국민이 함께 쉬어요. 그래서 이 계산기도 일반 공휴일로 취급해요.</p>
     </div>
     <div class="faq-item">
-      <h3>제헌절은 왜 빨간 날이 아닌가요?</h3>
-      <p>제헌절(7월 17일)은 국경일이지만 2008년부터 공휴일에서 제외돼서 관공서가 정상 근무해요. 그래서 이 계산기에도 쉬는 날로 넣지 않았어요.</p>
+      <h3>제헌절은 왜 빨간 날인가요?</h3>
+      <p>제헌절(7월 17일)은 2008년 공휴일에서 제외됐다가, 2026년 1월 29일 국회 본회의를 통과해 18년 만에 공휴일로 복원됐어요. 대체공휴일 적용 대상에도 포함돼서, 주말과 겹치면 다음 평일이 대체공휴일이 돼요.</p>
     </div>
     <div class="faq-item">
       <h3>데이터는 얼마나 정확한가요?</h3>
-      <p>「관공서의 공휴일에 관한 규정」을 기준으로 여러 자료를 교차 확인해서 넣었어요. 다만 국회·정부가 임시공휴일을 추가로 지정할 수 있으니, 중요한 일정은 정부 발표로 한 번 더 확인하는 걸 권장해요. 데이터 최종 확인일: <time id="data-year-note">2026-08-20</time></p>
+      <p><a href="https://www.law.go.kr/법령/관공서의공휴일에관한규정" target="_blank" rel="noopener noreferrer">「관공서의 공휴일에 관한 규정」</a>과 「공휴일에 관한 법률」을 1차 출처로 확인해서 넣었어요. 다만 국회·정부가 임시공휴일을 추가로 지정할 수 있으니, 중요한 일정은 정부 발표로 한 번 더 확인하는 걸 권장해요. 데이터 최종 확인일: <time id="data-year-note">2026-08-20</time></p>
+    </div>
+    <div class="faq-item">
+      <h3>왜 2026·2027년만 있나요?</h3>
+      <p>지금은 이 두 해까지만 공휴일이 확정·교차 검증됐어요. 다음 해가 확정되는 대로 데이터를 갱신할 예정이에요.</p>
     </div>
   </section>
 
