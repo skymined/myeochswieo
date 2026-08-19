@@ -1,0 +1,645 @@
+/* ==========================================================================
+   며칠쉬어 — design tokens
+   컨셉: 은행/관공서에서 나눠주던 큰 벽걸이 달력. 일요일·공휴일은 빨강,
+   토요일은 파랑으로 인쇄하던 관행을 그대로 색의 "의미"로 가져오고,
+   추천 연차일에는 금색 스탬프를 찍는다. 장식이 아니라 정보다.
+   ========================================================================== */
+
+:root {
+  --paper: #f3f0e8;
+  --paper-raised: #fbf9f4;
+  --ink: #262319;
+  --ink-soft: #6d6656;
+  --ink-faint: #a39c88;
+  --red: #b73a2e;
+  --blue: #2c5a86;
+  --gold: #b5811f;
+  --gold-soft: #f1e2bb;
+  --line: #ddd4bd;
+  --line-strong: #c7bc9d;
+  --shadow: 0 1px 0 rgba(38, 35, 25, 0.06);
+
+  --font-display: "Noto Serif KR", serif;
+  --font-num: "Fraunces", "Noto Serif KR", serif;
+  --font-body: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont,
+    "Malgun Gothic", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --radius: 3px;
+  --container: 46rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1c1a15;
+    --paper-raised: #242019;
+    --ink: #ece6d6;
+    --ink-soft: #ab9f89;
+    --ink-faint: #7a7059;
+    --red: #e2685b;
+    --blue: #7fa8d6;
+    --gold: #dcab55;
+    --gold-soft: #4a3c1c;
+    --line: #3a3427;
+    --line-strong: #4c4534;
+    --shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+.wrap {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+/* ---------- header ---------- */
+
+header.site {
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+header.site .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.brand .mark {
+  color: var(--red);
+}
+
+.year-toggle {
+  display: inline-flex;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.year-toggle button {
+  background: transparent;
+  border: none;
+  padding: 0.4rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.year-toggle button + button {
+  border-left: 1px solid var(--line-strong);
+}
+
+.year-toggle button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ---------- hero ---------- */
+
+main {
+  padding-bottom: 4rem;
+}
+
+.hero {
+  padding: 3rem 0 2.25rem;
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  min-height: 1.2em;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.7rem, 5vw, 2.4rem);
+  margin: 0.5rem 0 0.6rem;
+  letter-spacing: -0.01em;
+}
+
+.hero .lead {
+  max-width: 32rem;
+  margin: 0 auto 1.8rem;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--paper-raised);
+}
+
+.stepper button {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--ink);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.stepper button:hover:not(:disabled) {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.stepper button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.stepper .n-display {
+  font-family: var(--font-num);
+  font-weight: 600;
+  font-size: 1.4rem;
+  min-width: 2.4ch;
+  text-align: center;
+}
+
+.stepper .n-unit {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  margin-left: -0.6rem;
+}
+
+.hero-result {
+  margin-top: 2.1rem;
+}
+
+.hero-days {
+  font-family: var(--font-num);
+  font-weight: 700;
+  font-size: clamp(4.5rem, 22vw, 7.5rem);
+  line-height: 0.9;
+  color: var(--red);
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-days-unit {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--ink);
+  margin-left: 0.3rem;
+}
+
+.hero-range {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  color: var(--ink);
+  margin-top: 0.3rem;
+}
+
+.hero-detail {
+  margin-top: 0.9rem;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+
+.hero-detail strong {
+  color: var(--gold);
+}
+
+.hero-alt {
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+  min-height: 1.2em;
+}
+
+.worker-row {
+  margin-top: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.worker-row label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+}
+
+.next-holiday {
+  margin-top: 0.7rem;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  min-height: 1.2em;
+}
+
+/* ---------- section shell ---------- */
+
+section.block {
+  padding: 2.4rem 0;
+  border-top: 1px solid var(--line);
+}
+
+section.block h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin: 0 0 1.1rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+section.block h2 .sub {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+}
+
+/* ---------- table ---------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+thead th {
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-faint);
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+thead th.num,
+tbody td.num {
+  text-align: right;
+}
+
+tbody td {
+  padding: 0.55rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.92rem;
+}
+
+tbody tr {
+  cursor: pointer;
+}
+
+tbody tr:hover {
+  background: var(--paper-raised);
+}
+
+tbody tr.is-selected {
+  background: var(--gold-soft);
+}
+
+tbody td.strong {
+  font-weight: 700;
+  color: var(--red);
+  font-family: var(--font-num);
+}
+
+tbody td.ratio {
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+td .x {
+  color: var(--ink-faint);
+}
+
+/* ---------- ribbon (signature element) ---------- */
+
+.ribbon-shell {
+  overflow-x: auto;
+  padding-bottom: 0.4rem;
+}
+
+.ribbon {
+  display: flex;
+  align-items: flex-end;
+  gap: 1px;
+  height: 2.6rem;
+  min-width: 720px;
+}
+
+.ribbon-cell {
+  flex: 1 1 auto;
+  min-width: 1.6px;
+  height: 55%;
+  background: var(--line);
+  border-radius: 1px;
+  transition: height 0.15s ease;
+}
+
+.ribbon-cell.red,
+.ribbon-cell.sat-holiday {
+  background: var(--red);
+  height: 100%;
+}
+
+.ribbon-cell.blue {
+  background: var(--blue);
+  height: 78%;
+}
+
+.ribbon-cell.worker {
+  background: var(--ink-faint);
+  height: 78%;
+}
+
+.ribbon-cell.is-pto {
+  background: var(--gold);
+  height: 100%;
+  box-shadow: 0 0 0 1px var(--gold-soft);
+}
+
+.ribbon-months {
+  display: flex;
+  min-width: 720px;
+  margin-top: 0.35rem;
+}
+
+.ribbon-tick {
+  flex: 1 1 auto;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--ink-faint);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 1rem;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.legend i {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 1px;
+  display: inline-block;
+}
+
+.legend i.red {
+  background: var(--red);
+}
+.legend i.blue {
+  background: var(--blue);
+}
+.legend i.gold {
+  background: var(--gold);
+}
+.legend i.worker {
+  background: var(--ink-faint);
+}
+
+/* ---------- calendar grid ---------- */
+
+.calendar-months {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6rem 1.1rem;
+}
+
+.month h3 {
+  font-family: var(--font-num);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0 0 0.5rem;
+  color: var(--ink-soft);
+}
+
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.dow-row {
+  margin-bottom: 2px;
+}
+
+.dow-label {
+  font-size: 0.65rem;
+  text-align: center;
+  color: var(--ink-faint);
+  padding-bottom: 2px;
+}
+
+.dow-label.red {
+  color: var(--red);
+}
+.dow-label.blue {
+  color: var(--blue);
+}
+
+.day {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  border-radius: 2px;
+  position: relative;
+  background: var(--paper-raised);
+}
+
+.day.pad {
+  background: transparent;
+}
+
+.day .num {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+}
+
+.day .label {
+  display: none;
+}
+
+.day.red,
+.day.sat-holiday {
+  color: var(--red);
+}
+
+.day.blue {
+  color: var(--blue);
+}
+
+.day.worker {
+  color: var(--ink-soft);
+  text-decoration: underline dotted var(--ink-faint) 1px;
+  text-underline-offset: 2px;
+}
+
+.day.is-pto {
+  background: var(--gold-soft);
+  box-shadow: inset 0 0 0 1px var(--gold);
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* ---------- faq ---------- */
+
+.faq-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-item h3 {
+  font-size: 0.98rem;
+  margin: 0 0 0.4rem;
+  font-weight: 700;
+}
+
+.faq-item p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* ---------- footer ---------- */
+
+footer.site {
+  border-top: 1px solid var(--line);
+  padding: 2rem 0 3rem;
+}
+
+.trust-line {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  line-height: 1.8;
+}
+
+.footer-links {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.82rem;
+}
+
+.footer-links button {
+  background: none;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.footer-links button:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 640px) {
+  .calendar-months {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .day .num {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .calendar-months {
+    grid-template-columns: 1fr;
+  }
+
+  .stepper {
+    gap: 0.7rem;
+  }
+}

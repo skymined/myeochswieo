@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--
+  og-image.png 생성용 소스. 1200x630으로 스크린샷해서 og-image.png로 저장한다.
+  실제 사이트에는 포함되지 않는 정적 카드 — index.html에서 링크하지 않음.
+-->
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Noto+Serif+KR:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css" />
+<style>
+  @font-face { font-family: 'Fraunces'; src: local('Fraunces'); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1200px; height: 630px;
+    background: #f3f0e8;
+    font-family: "Pretendard Variable", "Pretendard", sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+  .brand {
+    position: absolute; top: 56px; left: 64px;
+    font-family: "Noto Serif KR", serif;
+    font-weight: 700; font-size: 30px; color: #262319;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .brand .dot { width: 14px; height: 14px; border-radius: 50%; background: #b73a2e; display: inline-block; }
+  .tag {
+    position: absolute; top: 62px; right: 64px;
+    font-family: "JetBrains Mono", monospace; font-size: 16px; color: #a39c88;
+  }
+  .stat {
+    position: absolute; top: 168px; left: 64px;
+  }
+  .stat .num { font-family: "Fraunces", serif; font-weight: 700; font-size: 220px; color: #b73a2e; line-height: 0.85; }
+  .stat .unit { font-family: "Noto Serif KR", serif; font-size: 40px; color: #262319; margin-left: 12px; }
+  .stat .sub { font-family: "Noto Serif KR", serif; font-size: 28px; color: #6d6656; margin-top: 18px; }
+  .strip {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 64px;
+    display: flex; align-items: flex-end; gap: 3px; padding: 0 64px 24px;
+  }
+  .cell { flex: 1; border-radius: 1px; }
+</style>
+</head>
+<body>
+  <div class="brand"><span class="dot"></span>며칠쉬어</div>
+  <div class="tag">2026 · 2027 공휴일 기준</div>
+  <div class="stat">
+    <span class="num">10</span><span class="unit">일 연속 휴가</span>
+    <div class="sub">연차 3일로 · 2026년 설날 연휴</div>
+  </div>
+  <div class="strip" id="strip"></div>
+  <script>
+    var colors = ['#b73a2e','#ddd4bd','#ddd4bd','#2c5a86','#ddd4bd','#ddd4bd','#ddd4bd','#b73a2e','#b5811f','#b5811f','#b5811f','#2c5a86','#ddd4bd','#b73a2e'];
+    var heights = [55,30,30,42,30,30,30,55,55,55,55,42,30,55];
+    var el = document.getElementById('strip');
+    for (var i = 0; i < 60; i++) {
+      var d = document.createElement('div');
+      d.className = 'cell';
+      var idx = i % colors.length;
+      d.style.background = colors[idx];
+      d.style.height = heights[idx] + 'px';
+      el.appendChild(d);
+    }
+  </script>
+</body>
+</html>

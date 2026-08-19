@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>며칠쉬어 — 2026년 연차 계산기 · 공휴일 대체공휴일 총정리</title>
+<meta name="description" content="2026·2027년 대한민국 공휴일, 대체공휴일, 황금연휴 날짜를 한눈에 정리했어요. 연차 며칠로 최대 며칠 쉴 수 있는지 1초 만에 계산하는 연차 계산기." />
+<meta name="keywords" content="연차 계산기, 2026년 공휴일, 2026 대체공휴일, 2027년 공휴일, 황금연휴, 연차 시뮬레이터, 추석 연휴, 설날 연휴" />
+<meta name="robots" content="index, follow" />
+<meta name="theme-color" content="#b73a2e" />
+<link rel="canonical" href="https://skymined.github.io/myeochswieo/" />
+
+<!-- Naver 서치어드바이저(searchadvisor.naver.com)에서 사이트 등록 후 발급되는 코드로 교체 -->
+<!-- <meta name="naver-site-verification" content="여기에-네이버-인증코드" /> -->
+<!-- Google Search Console(search.google.com/search-console)에서 발급되는 코드로 교체 -->
+<!-- <meta name="google-site-verification" content="여기에-구글-인증코드" /> -->
+
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="ko_KR" />
+<meta property="og:title" content="며칠쉬어 — 연차 계산기" />
+<meta property="og:description" content="연차 며칠로 최대 며칠 쉴 수 있는지 1초 만에 계산해요. 2026·2027년 공휴일 기준." />
+<meta property="og:url" content="https://skymined.github.io/myeochswieo/" />
+<meta property="og:image" content="https://skymined.github.io/myeochswieo/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Noto+Serif+KR:wght@500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css" />
+
+<link rel="stylesheet" href="style.css" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "며칠쉬어",
+  "url": "https://skymined.github.io/myeochswieo/",
+  "description": "연차 며칠로 최대 며칠 쉴 수 있는지 계산해주는 연차 최적화 시뮬레이터. 2026·2027년 대한민국 공휴일과 대체공휴일을 반영한다.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "ko",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "대체공휴일이 뭔가요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "설날·추석 연휴, 3·1절, 광복절, 개천절, 한글날, 어린이날, 부처님오신날, 성탄절이 주말이나 다른 공휴일과 겹칠 때, 그 다음 첫 평일을 대신 쉬게 해주는 제도예요. 단, 현충일과 신정은 이 제도의 적용 대상이 아니에요."
+    },
+    {
+      "@type": "Question",
+      "name": "근로자의 날에는 다 쉬나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "근로자의 날(5월 1일)은 관공서 공휴일이 아니라 근로기준법상 유급휴일이에요. 그래서 일반 사기업 직장인은 대부분 쉬지만, 공무원과 학교는 정상 근무·수업을 해요." }
+    },
+    {
+      "@type": "Question",
+      "name": "제헌절은 왜 빨간 날이 아닌가요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "제헌절(7월 17일)은 국경일이지만 2008년부터 공휴일에서 제외되어 관공서가 정상 근무해요. 태극기는 게양하지만 쉬는 날은 아니에요." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <span class="brand"><span class="mark">●</span>며칠쉬어</span>
+    <div class="year-toggle" role="group" aria-label="연도 선택">
+      <button type="button" data-year-btn="2026" aria-pressed="false">2026</button>
+      <button type="button" data-year-btn="2027" aria-pressed="false">2027</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero wrap">
+    <p class="eyebrow" id="next-holiday-eyebrow">연차 계산기</p>
+    <h1>연차, 며칠 있어요?</h1>
+    <p class="lead">2026년과 2027년 공휴일·대체공휴일을 반영해서, 연차 며칠로 최대 며칠 연휴를 만들 수 있는지 계산해요.</p>
+
+    <div class="stepper">
+      <button type="button" id="n-dec" aria-label="연차 일수 줄이기">−</button>
+      <span class="n-display"><span id="n-value">3</span><span class="n-unit">일</span></span>
+      <button type="button" id="n-inc" aria-label="연차 일수 늘리기">+</button>
+    </div>
+
+    <div class="hero-result">
+      <div><span class="hero-days" id="hero-days">0</span><span class="hero-days-unit">일 연속 휴가</span></div>
+      <div class="hero-range" id="hero-range"></div>
+      <div class="hero-detail" id="hero-detail"></div>
+      <div class="hero-alt" id="hero-alt"></div>
+    </div>
+
+    <div class="worker-row">
+      <label>
+        <input type="checkbox" id="worker-toggle" checked />
+        근로자의 날(5/1)도 쉬는 날에 포함 — 일반 직장인 기준
+      </label>
+    </div>
+    <p class="next-holiday" id="next-holiday"></p>
+  </section>
+
+  <section class="block wrap" id="table-section">
+    <h2>연차 일수별 한눈에 보기 <span class="sub">행을 누르면 위 결과가 바뀌어요</span></h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="num">연차</th>
+          <th class="num">총 휴일</th>
+          <th>기간</th>
+          <th class="num">효율</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </section>
+
+  <section class="block wrap">
+    <h2>연간 한눈에 보기 <span class="sub">빨강 = 일요일·공휴일, 파랑 = 토요일, 금색 = 추천 연차일</span></h2>
+    <div class="ribbon-shell">
+      <div class="ribbon" id="ribbon"></div>
+      <div class="ribbon-months" id="ribbon-months"></div>
+    </div>
+    <div class="legend">
+      <span><i class="red"></i>일요일·공휴일</span>
+      <span><i class="blue"></i>토요일</span>
+      <span><i class="worker"></i>근로자의 날</span>
+      <span><i class="gold"></i>추천 연차일</span>
+    </div>
+  </section>
+
+  <section class="block wrap">
+    <h2>전체 달력</h2>
+    <div class="calendar-months" id="calendar"></div>
+  </section>
+
+  <!--
+    아래 두 표는 자바스크립트 없이도 검색엔진(특히 네이버 Yeti)이 그대로 읽을 수 있도록
+    holidays-data.js와 동일한 내용을 정적 HTML로 중복 기재한 것. 데이터를 갱신할 때는
+    holidays-data.js와 이 블록을 함께 수정해야 한다.
+  -->
+  <section class="block wrap">
+    <h2>2026년 공휴일·대체공휴일 전체 목록</h2>
+    <table>
+      <thead><tr><th>날짜</th><th>공휴일</th></tr></thead>
+      <tbody>
+        <tr><td>1/1(목)</td><td>신정</td></tr>
+        <tr><td>2/16(월)~2/18(수)</td><td>설날 연휴 (설날 2/17 화)</td></tr>
+        <tr><td>3/1(일)</td><td>삼일절</td></tr>
+        <tr><td>3/2(월)</td><td>삼일절 대체공휴일</td></tr>
+        <tr><td>5/1(금)</td><td>근로자의 날 (관공서 공휴일 아님)</td></tr>
+        <tr><td>5/5(화)</td><td>어린이날</td></tr>
+        <tr><td>5/24(일)</td><td>부처님오신날</td></tr>
+        <tr><td>5/25(월)</td><td>부처님오신날 대체공휴일</td></tr>
+        <tr><td>6/3(수)</td><td>전국동시지방선거</td></tr>
+        <tr><td>6/6(토)</td><td>현충일</td></tr>
+        <tr><td>8/15(토)</td><td>광복절</td></tr>
+        <tr><td>8/17(월)</td><td>광복절 대체공휴일</td></tr>
+        <tr><td>9/24(목)~9/26(토)</td><td>추석 연휴 (추석 9/25 금)</td></tr>
+        <tr><td>10/3(토)</td><td>개천절</td></tr>
+        <tr><td>10/5(월)</td><td>개천절 대체공휴일</td></tr>
+        <tr><td>10/9(금)</td><td>한글날</td></tr>
+        <tr><td>12/25(금)</td><td>성탄절</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="block wrap">
+    <h2>2027년 공휴일·대체공휴일 전체 목록</h2>
+    <table>
+      <thead><tr><th>날짜</th><th>공휴일</th></tr></thead>
+      <tbody>
+        <tr><td>1/1(금)</td><td>신정</td></tr>
+        <tr><td>2/6(토)~2/8(월)</td><td>설날 연휴 (설날 2/7 일)</td></tr>
+        <tr><td>2/9(화)</td><td>설날 대체공휴일</td></tr>
+        <tr><td>3/1(월)</td><td>삼일절</td></tr>
+        <tr><td>5/1(토)</td><td>근로자의 날 (관공서 공휴일 아님)</td></tr>
+        <tr><td>5/5(수)</td><td>어린이날</td></tr>
+        <tr><td>5/13(목)</td><td>부처님오신날</td></tr>
+        <tr><td>6/6(일)</td><td>현충일</td></tr>
+        <tr><td>8/15(일)</td><td>광복절</td></tr>
+        <tr><td>8/16(월)</td><td>광복절 대체공휴일</td></tr>
+        <tr><td>9/14(화)~9/16(목)</td><td>추석 연휴 (추석 9/15 수)</td></tr>
+        <tr><td>10/3(일)</td><td>개천절</td></tr>
+        <tr><td>10/4(월)</td><td>개천절 대체공휴일</td></tr>
+        <tr><td>10/9(토)</td><td>한글날</td></tr>
+        <tr><td>10/11(월)</td><td>한글날 대체공휴일</td></tr>
+        <tr><td>12/25(토)</td><td>성탄절</td></tr>
+        <tr><td>12/27(월)</td><td>성탄절 대체공휴일</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="block wrap">
+    <h2>자주 묻는 질문</h2>
+
+    <div class="faq-item">
+      <h3>이 계산은 어떻게 하나요?</h3>
+      <p>연차 개수를 예산으로 두고, 그 예산 안에서 만들 수 있는 가장 긴 연속 휴일 구간을 전체 날짜에서 찾아요. 원래 쉬는 날(주말·공휴일)은 그대로 두고, 그 사이에 낀 평일만 연차로 채우는 방식이에요.</p>
+    </div>
+    <div class="faq-item">
+      <h3>대체공휴일이 뭔가요?</h3>
+      <p>설날·추석 연휴, 3·1절, 광복절, 개천절, 한글날, 어린이날, 부처님오신날, 성탄절이 주말이나 다른 공휴일과 겹칠 때 그 다음 첫 평일을 대신 쉬게 해주는 제도예요. 다만 설날·추석 연휴는 '일요일'과 겹칠 때만 적용되고, 나머지 항목은 토요일과 겹쳐도 적용돼요. 현충일과 신정은 이 제도 자체의 적용 대상이 아니에요.</p>
+    </div>
+    <div class="faq-item">
+      <h3>근로자의 날에는 다 쉬나요?</h3>
+      <p>근로자의 날(5월 1일)은 관공서 공휴일이 아니라 근로기준법상 유급휴일이에요. 일반 사기업 직장인은 대부분 쉬지만 공무원·학교는 정상 근무해요. 위 토글로 계산에 포함할지 뺄지 선택할 수 있어요.</p>
+    </div>
+    <div class="faq-item">
+      <h3>제헌절은 왜 빨간 날이 아닌가요?</h3>
+      <p>제헌절(7월 17일)은 국경일이지만 2008년부터 공휴일에서 제외돼서 관공서가 정상 근무해요. 그래서 이 계산기에도 쉬는 날로 넣지 않았어요.</p>
+    </div>
+    <div class="faq-item">
+      <h3>데이터는 얼마나 정확한가요?</h3>
+      <p>「관공서의 공휴일에 관한 규정」을 기준으로 여러 자료를 교차 확인해서 넣었어요. 다만 국회·정부가 임시공휴일을 추가로 지정할 수 있으니, 중요한 일정은 정부 발표로 한 번 더 확인하는 걸 권장해요. 데이터 최종 확인일: <time id="data-year-note">2026-08-20</time></p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p class="trust-line">
+      「관공서의 공휴일에 관한 규정」(대통령령) 기준 · 데이터 최종 확인 2026-08-20 · 임시공휴일 등 변동 가능성 있음
+    </p>
+    <div class="footer-links">
+      <button type="button" id="share-btn">링크 복사</button>
+    </div>
+  </div>
+</footer>
+
+<script src="holidays-data.js"></script>
+<script src="script.js"></script>
+<script>
+  document.getElementById("share-btn").addEventListener("click", function () {
+    navigator.clipboard.writeText(window.location.href).then(function () {
+      var btn = document.getElementById("share-btn");
+      var original = btn.textContent;
+      btn.textContent = "복사됐어요";
+      setTimeout(function () {
+        btn.textContent = original;
+      }, 1500);
+    });
+  });
+</script>
+
+<!--
+  Google Analytics 4 — 아래 G-XXXXXXXXXX를 실제 측정 ID로 교체하세요.
+  https://analytics.google.com 에서 속성을 만들면 발급됩니다.
+-->
+<!--
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+-->
+
+</body>
+</html>
