@@ -272,7 +272,7 @@
 
   /** 연도를 바꿔도 브라우저 탭 제목이 그대로였던 문제 수정: 선택된 연도를 반영한다. */
   function updateDocumentTitle() {
-    document.title = `며칠쉬어 — ${state.year}년 연차 계산기 · 공휴일 대체공휴일 총정리`;
+    document.title = `며칠쉬어 — 연차 며칠로 며칠 쉴까? ${state.year} 황금연휴 계산기`;
   }
 
   /** "연차 일수별 한눈에 보기" 표 부제에 연도와 "오늘 이후 기준"임을 명시한다. */
@@ -728,6 +728,28 @@
     recompute();
   }
 
+  /**
+   * navigator.share가 있으면(대부분의 모바일 브라우저) 카카오톡·메시지 등
+   * 기기의 공유 시트를 그대로 띄운다. 없으면(주로 데스크톱) 클립보드에
+   * 복사하고 버튼 라벨로 잠깐 피드백을 준다.
+   */
+  function shareOrCopy(btn, title, text, url) {
+    if (navigator.share) {
+      navigator.share({ title, text, url }).catch(() => {});
+      return;
+    }
+    navigator.clipboard
+      .writeText(text ? `${text}\n${url}` : url)
+      .then(() => {
+        const original = btn.textContent;
+        btn.textContent = "복사됐어요";
+        setTimeout(() => {
+          btn.textContent = original;
+        }, 1500);
+      })
+      .catch(() => {});
+  }
+
   function init() {
     document.getElementById("n-dec").addEventListener("click", () => setN(state.n - 1));
     document.getElementById("n-inc").addEventListener("click", () => setN(state.n + 1));
@@ -739,6 +761,26 @@
     document.querySelectorAll("[data-sort]").forEach((btn) => {
       btn.addEventListener("click", () => setSortMode(btn.dataset.sort));
     });
+
+    const shareBtn = document.getElementById("share-btn");
+    if (shareBtn) {
+      shareBtn.addEventListener("click", () => {
+        shareOrCopy(shareBtn, "며칠쉬어", "연차 며칠로 최대 며칠 쉴 수 있는지 계산해봐요", window.location.href);
+      });
+    }
+
+    const resultShareBtn = document.getElementById("result-share-btn");
+    if (resultShareBtn) {
+      resultShareBtn.addEventListener("click", () => {
+        const heroDays = document.getElementById("hero-days").textContent;
+        const heroRange = document.getElementById("hero-range").textContent;
+        const text =
+          heroDays && heroDays !== "—"
+            ? `연차 ${state.n}일로 ${heroDays}일 연속 쉴 수 있대요! (${heroRange})`
+            : "며칠쉬어 — 연차 계산기";
+        shareOrCopy(resultShareBtn, "며칠쉬어", text, window.location.href);
+      });
+    }
 
     const yearEl = document.getElementById("data-year-note");
     if (yearEl) yearEl.textContent = DATA_LAST_VERIFIED;

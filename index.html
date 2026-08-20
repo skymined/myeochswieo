@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>며칠쉬어 — 2026년 연차 계산기 · 공휴일 대체공휴일 총정리</title>
-<meta name="description" content="2026·2027년 대한민국 공휴일, 대체공휴일, 황금연휴 날짜를 한눈에 정리했어요. 연차 며칠로 최대 며칠 쉴 수 있는지 1초 만에 계산하는 연차 계산기." />
-<meta name="keywords" content="연차 계산기, 2026년 공휴일, 2026 대체공휴일, 2027년 공휴일, 황금연휴, 연차 시뮬레이터, 추석 연휴, 설날 연휴" />
+<title>며칠쉬어 — 연차 며칠로 며칠 쉴까? 2026 황금연휴 계산기</title>
+<meta name="description" content="연차 발생일수 계산기가 아니라, 연차를 언제 써야 가장 길게 쉬는지 알려주는 계산기예요. 2026년 제헌절·노동절 부활 반영, 2026·2027년 공휴일·대체공휴일 기준." />
+<meta name="keywords" content="연차 계산기, 황금연휴 만들기, 연차 언제 써야, 2026년 공휴일, 제헌절 부활, 노동절 공휴일, 2026 대체공휴일, 2027년 공휴일, 연차 시뮬레이터, 추석 연휴, 설날 연휴" />
 <meta name="robots" content="index, follow" />
 <meta name="theme-color" content="#b73a2e" />
 <link rel="canonical" href="https://skymined.github.io/myeochswieo/" />
@@ -127,6 +127,7 @@
           <div class="hero-alt" id="hero-alt"></div>
         </div>
         <p class="next-holiday" id="next-holiday"></p>
+        <button type="button" class="result-share-btn" id="result-share-btn">이 결과 공유하기</button>
       </div>
 
       <div class="options-panel">
@@ -240,6 +241,27 @@
   </section>
 
   <section class="block wrap">
+    <h2>2026년, 공휴일이 2개 늘었어요</h2>
+    <p class="news-lede">
+      올해부터 <strong>제헌절(7/17)</strong>과 <strong>노동절·근로자의 날(5/1)</strong>이
+      전부 정식 공휴일이 됐어요. 이 계산기는 두 날 모두 이미 반영해서 계산해요 —
+      2025년까지 통했던 상식으로 연차 계획을 짜면 하루 손해볼 수 있어요.
+    </p>
+    <div class="news-cards">
+      <div class="news-card">
+        <span class="news-card-tag">18년 만에 부활</span>
+        <h3>제헌절 (7월 17일)</h3>
+        <p>2008년 공휴일에서 제외됐다가, 2026년 1월 29일 국회 본회의를 통과해 다시 빨간 날이 됐어요. 대체공휴일 대상에도 포함돼서 주말과 겹치면 다음 평일을 대신 쉬어요.</p>
+      </div>
+      <div class="news-card">
+        <span class="news-card-tag">32년 만에 격상</span>
+        <h3>노동절 · 근로자의 날 (5월 1일)</h3>
+        <p>예전엔 사기업만 쉬고 공무원·학교는 정상 근무였는데, 2026년 4월 국무회의 의결로 정식 관공서 공휴일이 됐어요. 이제 전 국민이 같은 날 쉬어요.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block wrap">
     <h2>자주 묻는 질문</h2>
 
     <div class="faq-item">
@@ -276,25 +298,13 @@
       「관공서의 공휴일에 관한 규정」(대통령령) 기준 · 데이터 최종 확인 2026-08-20 · 임시공휴일 등 변동 가능성 있음
     </p>
     <div class="footer-links">
-      <button type="button" id="share-btn">링크 복사</button>
+      <button type="button" id="share-btn">공유하기</button>
     </div>
   </div>
 </footer>
 
 <script src="holidays-data.js"></script>
 <script src="script.js"></script>
-<script>
-  document.getElementById("share-btn").addEventListener("click", function () {
-    navigator.clipboard.writeText(window.location.href).then(function () {
-      var btn = document.getElementById("share-btn");
-      var original = btn.textContent;
-      btn.textContent = "복사됐어요";
-      setTimeout(function () {
-        btn.textContent = original;
-      }, 1500);
-    });
-  });
-</script>
 
 <!--
   Google Analytics 4 — 아래 G-XXXXXXXXXX를 실제 측정 ID로 교체하세요.
