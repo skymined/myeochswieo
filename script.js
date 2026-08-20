@@ -10,11 +10,19 @@
   const DOW_KR = ["일", "월", "화", "수", "목", "금", "토"];
   const MAX_PTO = 20;
 
-  /** @type {{year:number, n:number, pinnedWindow:({start:number,end:number}|null), sortMode:string}} */
+  /**
+   * @type {{year:number, n:number, pinnedWindow:({start:number,end:number}|null),
+   *   pinnedAnchorIndex:(number|null), sortMode:string}}
+   * pinnedAnchorIndex는 "사용자가 보고 있던 연휴가 어디쯤인지"를 기억해두는
+   * 위치(인덱스)다. 연차 일수를 바꿔도 이 자리를 계속 붙잡고 그 자리 기준으로
+   * 다시 계산해서, 예를 들어 '개천절·한글날'을 보고 있다가 연차를 -1 해도
+   * 엉뚱하게 '추석'으로 튀지 않고 같은 명절 근처에 머무르게 한다.
+   */
   const state = {
     year: defaultYear(),
     n: 3,
     pinnedWindow: null,
+    pinnedAnchorIndex: null,
     sortMode: "soon",
   };
 
@@ -248,6 +256,7 @@
   function recompute() {
     cachedDays = buildYearDays(state.year);
     state.pinnedWindow = null;
+    state.pinnedAnchorIndex = null;
     renderHero();
     renderHeroPreview();
     renderTable();
@@ -582,6 +591,26 @@
       });
   }
 
+  /**
+   * 연차 일수(state.n)가 바뀐 뒤에도, 이전에 고정해뒀던 연휴(state.pinnedAnchorIndex)를
+   * 계속 붙잡고 있을 수 있는지 확인한다. 그 자리를 포함하는 옵션이 새 연차
+   * 일수 기준으로도 여전히 나온다면 그 구간으로 다시 고정하고, 더 이상 안
+   * 나온다면(예산이 너무 작아져서 그 연휴까지 못 미치는 경우 등) 고정을 푼다.
+   */
+  function tryReanchorPinnedWindow() {
+    if (state.pinnedAnchorIndex === null) return;
+    const options = computeOptions();
+    const match = options.find(
+      (o) => state.pinnedAnchorIndex >= o.start && state.pinnedAnchorIndex <= o.end
+    );
+    if (match) {
+      state.pinnedWindow = { start: match.start, end: match.end };
+    } else {
+      state.pinnedWindow = null;
+      state.pinnedAnchorIndex = null;
+    }
+  }
+
   function sortOptions(options, mode) {
     const arr = options.slice();
     if (mode === "length") arr.sort((a, b) => b.len - a.len || a.startTime - b.startTime);
@@ -636,7 +665,14 @@
         </span>
       `;
       btn.addEventListener("click", () => {
-        state.pinnedWindow = { start: opt.start, end: opt.end };
+        if (isPinned) {
+          // 이미 고정된 옵션을 다시 누르면 고정을 풀고 자동(전역 최적) 추천으로 되돌아간다.
+          state.pinnedWindow = null;
+          state.pinnedAnchorIndex = null;
+        } else {
+          state.pinnedWindow = { start: opt.start, end: opt.end };
+          state.pinnedAnchorIndex = Math.floor((opt.start + opt.end) / 2);
+        }
         renderHero();
         renderHeroPreview();
         renderOptionsList();
@@ -675,7 +711,7 @@
 
   function setN(n) {
     state.n = Math.min(MAX_PTO, Math.max(1, n));
-    state.pinnedWindow = null;
+    tryReanchorPinnedWindow();
     renderHero();
     renderHeroPreview();
     renderTable();
