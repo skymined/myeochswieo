@@ -238,7 +238,8 @@
   function getActiveWindowInfo() {
     if (state.pinnedWindow) {
       const w = state.pinnedWindow;
-      return { bestLen: w.end - w.start + 1, windows: [w] };
+      const len = w.end - w.start + 1;
+      return { bestLen: len, windows: [{ start: w.start, end: w.end, len }] };
     }
     return bestWindowsForBudget(cachedDays, state.n, getFloorIndex());
   }
